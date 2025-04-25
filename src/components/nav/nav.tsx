@@ -2,7 +2,6 @@
 
 import { useCart } from "@/contexts/cartContext";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa6";
 import { FaCartShopping } from "react-icons/fa6";
 
