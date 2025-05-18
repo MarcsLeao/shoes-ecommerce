@@ -4,37 +4,23 @@ import { formatCurrency } from "@/utils/format-data";
 import { SectionTitle } from "../generic/generic";
 import { FiArrowUpRight } from "react-icons/fi";
 import Link from "next/link";
-
-// export function Featured() {
-//     return (
-//         <section className="px-12 py-12">
-//             <SectionTitle title="Featured"/>
-//             <div className="grid grid-cols-7 gap-8 overflow-x-auto">
-//                 <ProductCards name="Nike Shoes" price={formatCurrency(800)} url="https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=1760&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/>
-//                 <ProductCards name="Nike Shoes" price={formatCurrency(999)} url="https://images.unsplash.com/photo-1597045566677-8cf032ed6634?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/>
-//                 <ProductCards name="Nike Shoes" price={formatCurrency(180.20)} url="https://images.unsplash.com/photo-1679284392816-191b1c849f76?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/>
-//                 <ProductCards name="Nike Shoes" price={formatCurrency(800)} url="https://images.unsplash.com/photo-1542219550-37153d387c27?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/>
-//                 <ProductCards name="Nike Shoes" price={formatCurrency(999)} url="https://images.unsplash.com/photo-1597045566677-8cf032ed6634?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/>
-//                 <ProductCards name="Nike Shoes" price={formatCurrency(180.20)} url="https://images.unsplash.com/photo-1679284392816-191b1c849f76?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/>
-//                 <ProductCards name="Nike Shoes" price={formatCurrency(800)} url="https://images.unsplash.com/photo-1542219550-37153d387c27?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/>
-//             </div>
-//         </section>
-//     )
-// }
+import { useProduct } from "@/hooks/useProducts";
+import { ProductItem } from "@/@types/product";
+import { FeaturedSkeleton } from "../skeletons/featuredSkeleton";
 
 export function Featured() {
+    const {data, isLoading} = useProduct()
+
+    if(isLoading) return <FeaturedSkeleton />
+
     return (
-        <section className="px-8 sm:px-12 py-12">
+        <section className={"px-8 sm:px-12 py-12"}>
             <SectionTitle title="Featured"/>
             <div className="flex gap-8 overflow-x-auto snap-x snap-mandatory scroll-smooth whitespace-nowrap py-2">
-                <ProductCard name="Nike Shoes" maxSize={true} price={formatCurrency(800)} url="https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=1760&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/>
-                <ProductCard name="Nike Shoes" maxSize={true} price={formatCurrency(999)} url="https://images.unsplash.com/photo-1597045566677-8cf032ed6634?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/>
-                <ProductCard name="Nike Shoes" maxSize={true} price={formatCurrency(180.20)} url="https://images.unsplash.com/photo-1679284392816-191b1c849f76?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/>
-                <ProductCard name="Nike Shoes" maxSize={true} price={formatCurrency(800)} url="https://images.unsplash.com/photo-1542219550-37153d387c27?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/>
-                <ProductCard name="Nike Shoes" maxSize={true} price={formatCurrency(999)} url="https://images.unsplash.com/photo-1597045566677-8cf032ed6634?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/>
-                <ProductCard name="Nike Shoes" maxSize={true} price={formatCurrency(180.20)} url="https://images.unsplash.com/photo-1679284392816-191b1c849f76?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/>
-                <ProductCard name="Nike Shoes" maxSize={true} price={formatCurrency(800)} url="https://images.unsplash.com/photo-1542219550-37153d387c27?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/>
-            </div>
+                {data && data.map((item: ProductItem, index: number) => (
+                    index <= 6 ? <ProductCard key={index} name={item.name} maxSize={true} price={formatCurrency(item.price)} url={item.images[0].url}/> : null
+                ))}
+                </div>
         </section>
     )
 }

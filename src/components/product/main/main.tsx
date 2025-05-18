@@ -14,6 +14,7 @@ import { ProductItem } from "@/@types/product";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PurchaseForm, PurchaseFormSchema } from "@/@types/cart";
 import { useCart } from "@/contexts/cartContext";
+import { ProductMainSkeleton } from "@/components/product/skeletons/productMainSkeleton";
 
 export function ProductMain({ params }: { params: { slug: string }}) {
     const [product, setProduct] = useState<ProductItem | null>(null)
@@ -50,15 +51,10 @@ export function ProductMain({ params }: { params: { slug: string }}) {
     }, [params.slug])
 
     if(!product && loading)
-        return <div>loading</div>
+        return <ProductMainSkeleton />
 
     if(!product) 
         return notFound()
-
-    // const handleSelectedColor = (color: string) => {
-    //     setSelectedColor(color)
-    //     setValue('color', color)    
-    // }
     
     const handleSelectedSize = (size: number) => {
         setSelectedSize(size)
@@ -75,60 +71,53 @@ export function ProductMain({ params }: { params: { slug: string }}) {
         <section>
             <Nav />
             <PageNavigationBar />
-            <section className="h-[650px] grid grid-cols-[3fr,1fr] p-6">
-                <div className="border-r-2 border-gray-300">
+            <section className="min-h-[650px] flex flex-col md:grid grid-cols-[3fr,1fr] p-6">
+                <div className="flex md:hidden flex-col gap-4">
+                    <h1 className="font-bold text-2xl">{product?.name}</h1>
+                    <p className="font-medium text-lg">{product?.price ? formatCurrency(product.price) : ''}</p>
+                    <p>{product?.description}</p>
+                </div>
+
+                <div className="md:border-r-2 border-gray-300">
                     <div className="px-4">
                         <img 
-                            className="w-full h-[650px] object-cover" 
+                            className="w-full max-h-[650px] object-cover" 
                             src={`${product?.images[0]?.url ? product.images[0].url : 'https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=1760&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'}`}
                         />
                     </div>
                 </div>
 
+
                 <form onSubmit={handleSubmit(onSubmit)} className="p-4 flex flex-col justify-between items-start">
-                    <div className="flex flex-col gap-4">
-                        <h1 className="font-bold text-2xl">{product?.name}</h1>
-                        <p className="font-medium text-lg">{product?.price ? formatCurrency(product.price) : ''}</p>
-                        <p>{product?.description}</p>
+                        <div className="flex flex-col gap-4">
+                            <h1 className="hidden md:inline-block font-bold text-2xl">{product?.name}</h1>
+                            <p className="hidden md:inline-block font-medium text-lg">{product?.price ? formatCurrency(product.price) : ''}</p>
+                            <p className="hidden md:inline-block">{product?.description}</p>
 
-                        <div>
-                            <p className="font-semibold text-lg mb-2">Select Size</p>
-                            <div className="grid grid-cols-[40px,40px,40px,40px] gap-4">
-                                {product?.sizes?.map((sizes: {size: number}, index: number) => (
-                                    <button type="button" onClick={() => handleSelectedSize(sizes.size)} key={index} className={`border-2 rounded-lg p-2 text-center cursor-pointer transition-colors ${selectedSize === sizes.size ? 'bg-zinc-900 border-zinc-900 text-white hover:bg-zinc-800 hover:border-zinc-800' : 'hover:bg-gray-200'}`}>{sizes.size}</button>
-                                ))}
-                            </div>
-                        </div>
-                        {errors.size?.message && !selectedSize && <p className="text-red-700 text-sm">Please select a size</p>}
-
-                        <div>
-                            <p className="font-semibold text-lg mb-2">Color</p>
-                            <div className="grid grid-cols-[70px] gap-4">
-                                <div className="group">
-                                    <button type="button" className="rounded-lg border-2 p-1 border-zinc-700">
-                                        <img src={product?.images[0].url} alt={'image of '+product.name}/>
-                                    </button>
-                                    <p className="transition-colors text-white text-center group-hover:text-zinc-900"><i>base</i></p>
+                            <div>
+                                <p className="font-semibold text-lg mb-2">Select Size</p>
+                                <div className="grid grid-cols-[40px,40px,40px,40px] gap-4">
+                                    {product?.sizes?.map((sizes: {size: number}, index: number) => (
+                                        <button type="button" onClick={() => handleSelectedSize(sizes.size)} key={index} className={`border-2 rounded-lg p-2 text-center cursor-pointer transition-colors ${selectedSize === sizes.size ? 'bg-zinc-900 border-zinc-900 text-white hover:bg-zinc-800 hover:border-zinc-800' : 'hover:bg-gray-200'}`}>{sizes.size}</button>
+                                    ))}
                                 </div>
                             </div>
-                        </div>
+                            {errors.size?.message && !selectedSize && <p className="text-red-700 text-sm">Please select a size</p>}
+
+                            <div>
+                                <p className="font-semibold text-lg mb-2">Color</p>
+                                <div className="grid grid-cols-[70px] gap-4">
+                                    <div className="group">
+                                        <button type="button" className="rounded-lg border-2 p-1 border-zinc-700">
+                                            <img src={product?.images[0].url} alt={'image of '+product.name}/>
+                                        </button>
+                                        <p className="transition-colors text-white text-center group-hover:text-zinc-900"><i>base</i></p>
+                                    </div>
+                                </div>
+                            </div>
                     </div>
 
-                    
-                    {/* <div>
-                        <p className="font-semibold text-lg mb-2">Availibe Colors</p>
-                        <div className="grid grid-cols-4 gap-4">
-                            <button type="button" onClick={() => handleSelectedColor('red')} className={`bg-red-500 w-[40px] h-[40px] border-2 rounded-full p-2 text-center ${selectedColor ? 'border-zinc-900' : ''}`}></button>
-                            <button type="button" onClick={() => handleSelectedColor('red')} className={`bg-black w-[40px] h-[40px] border-2 rounded-full p-2 text-center ${selectedColor ? 'border-zinc-900' : ''}`}></button>
-                            <button type="button" onClick={() => handleSelectedColor('red')} className={`bg-yellow-500 w-[40px] h-[40px] border-2 rounded-full p-2 text-center ${selectedColor ? 'border-zinc-900' : ''}`}></button>
-                            <button type="button" onClick={() => handleSelectedColor('blue')} className={`bg-purple-500 w-[40px] h-[40px] border-2 rounded-full p-2 text-center ${selectedColor ? 'border-zinc-900' : ''}`}></button>
-                            <button type="button" onClick={() => handleSelectedColor('blue')} className={`bg-zinc-500 w-[40px] h-[40px] border-2 rounded-full p-2 text-center ${selectedColor ? 'border-zinc-900' : ''}`}></button>
-                            <button type="button" onClick={() => handleSelectedColor('blue')} className={`bg-blue-500 w-[40px] h-[40px] border-2 rounded-full p-2 text-center ${selectedColor ? 'border-zinc-900' : ''}`}></button>
-                        </div>
-                    </div>
-                    {errors.color?.message && !selectedColor && <p className="text-red-700 text-sm">Please select a color</p>} */}
-
-                    <div className="flex flex-col items-start gap-4">
+                    <div className="w-full flex flex-col items-start gap-4">
                         <ButtonBuyProduct typeSubmit={true}/>
                         <p>Free Delivery on <span className="underline">Premium</span> Membership Plan.</p>
                     </div>

@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { SiVerizon } from "react-icons/si";
 import { ButtonClose } from "@/components/buttons/buttons";
+import { ShoesMainSkeleton } from "../skeletons/shoesMainSkeleton";
 
 export default function ShoesMain({searchParams} : {searchParams: { [key: string]: string | string[] | undefined }}) {
     const {data, isLoading} = useProduct()
@@ -29,13 +30,15 @@ export default function ShoesMain({searchParams} : {searchParams: { [key: string
 
     const start = (Number(page) - 1) * Number(per_page)
     const end = start + Number(per_page)
-    const entries = data.slice(start, end)
+    const entries = data ? data.slice(start, end) : null
+
+    const isDataLoaded = data ? true : false
     
     if(data) 
         sessionStorage.setItem('products', JSON.stringify(data))
 
-    if(!data && isLoading)
-        return <div>Loading</div>
+    if(!data || isLoading)
+        return <ShoesMainSkeleton />
 
     return (
         <div>
@@ -46,9 +49,9 @@ export default function ShoesMain({searchParams} : {searchParams: { [key: string
                 <PageNavigationBar />
 
                 <div className="hidden sm:flex justify-start items-center gap-4 px-12 py-4">
-                    <FilterBarItem name='Category' defaultOption='All' barOptions={categoryOptions}/>
-                    <FilterBarItem name='Price' defaultOption='Default' barOptions={filterOptions}/>
-                    <FilterBarItem name='Sort' defaultOption='None' barOptions={sortOptions}/>
+                    <FilterBarItem name='Category' defaultOption='All' barOptions={categoryOptions} isDataLoaded={isDataLoaded}/>
+                    <FilterBarItem name='Price' defaultOption='Default' barOptions={filterOptions} isDataLoaded={isDataLoaded}/>
+                    <FilterBarItem name='Sort' defaultOption='None' barOptions={sortOptions} isDataLoaded={isDataLoaded}/>
                 </div>
 
                 <FilterBarMobile setIsOpen={setIsOpen}/>
@@ -67,7 +70,7 @@ export default function ShoesMain({searchParams} : {searchParams: { [key: string
     )
 }
 
-export function FilterBarItem({name, defaultOption, barOptions}: {name: 'Category' | 'Price' | 'Sort', defaultOption?: string, barOptions: string[]}) {
+export function FilterBarItem({name, defaultOption, barOptions, isDataLoaded}: {isDataLoaded: boolean ,name: 'Category' | 'Price' | 'Sort', defaultOption?: string, barOptions: string[]}) {
     const [selectedOption, setSelectedOption] = useState(defaultOption || 'None')
     const {setFilterOption} = useFilter()
     const router = useRouter()
@@ -91,7 +94,7 @@ export function FilterBarItem({name, defaultOption, barOptions}: {name: 'Categor
 
             <div className="absolute left-[-2px] mt-2 min-w-[150px] rounded-b-lg bg-white border-2 hidden group-hover:block">
                 {barOptions.map((item: string, index) => (
-                    <button key={index} onClick={() => handleFilter(item)} className="w-full px-4 py-2 text-left hover:bg-gray-200 ">{item}</button>
+                    <button disabled={!isDataLoaded} key={index} onClick={() => handleFilter(item)} className="w-full px-4 py-2 text-left hover:bg-gray-200 ">{item}</button>
                 ))}
             </div>
         </div>

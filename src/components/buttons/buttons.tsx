@@ -22,7 +22,7 @@ export function ButtonBasicYellow({text}: {text: string}) {
 
 export function ButtonBuyProduct({typeSubmit}: {typeSubmit: boolean}) {
     return (
-        <button type={typeSubmit ? 'submit' : 'button'} className="bg-zinc-900 text-white flex justify-center items-center gap-3 rounded-full py-4 px-7 font-bold text-sm tracking-widest transition-colors duration-300 group">
+        <button type={typeSubmit ? 'submit' : 'button'} className="w-full md:w-max bg-zinc-900 text-white flex justify-center items-center gap-3 rounded-full py-4 px-7 font-bold text-sm tracking-widest transition-colors duration-300 group">
           <span>Buy Now</span>
           <FiArrowUpRight className="inline-block bg-white rounded-full p-1 text-2xl text-zinc-900 ml-2 transition-colors duration-300 group-hover:bg-yellow-400" />
         </button>

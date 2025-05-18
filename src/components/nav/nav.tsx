@@ -43,9 +43,14 @@ export function NavUserLinks() {
         <ul  className="flex gap-2">
             <li className="hover:bg-white cursor-pointer transition-colors p-2  rounded-full"><FaUser /></li>
             <li className="hover:bg-white cursor-pointer transition-colors p-2 rounded-full">
-                <Link href={'/cart'} className="relative">
-                    <FaCartShopping />
-                    {quantity ? <div className="absolute left-4 top-2 rounded-full w-[20px] h-[20px] bg-red-500 text-sm text-white"><span className="flex justify-center items-center">{quantity}</span></div> : null}
+                <Link href={'/cart'}>
+                    <div className="relative">
+                        <FaCartShopping />
+                        {quantity ? (
+                            <div className="absolute -bottom-3 -right-4 rounded-full w-[17px] h-[17px] bg-red-500 text-sm text-white flex justify-center items-center">
+                                {quantity}
+                            </div> ) : null}
+                    </div>
                 </Link>
             </li>
         </ul>
