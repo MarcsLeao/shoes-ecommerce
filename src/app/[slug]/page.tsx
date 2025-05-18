@@ -1,7 +1,7 @@
 "use client"
 
 import { ProductMain } from "@/components/product/main/main";
-import { ProductMainSkeleton } from "@/components/product/skeletons/ProductMainSkeleton";
+import { ProductMainSkeleton } from "@/components/product/skeletons/productMainSkeleton";
 import { useFindProductByName } from "@/services/product-services";
 import { notFound } from "next/navigation";
 

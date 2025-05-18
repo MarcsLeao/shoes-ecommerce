@@ -14,7 +14,6 @@ export function Hero() {
                 <Link href={'/shoes'}>
                     <ButtonBorderYellow text="SEE PRODUCTS"/>
                 </Link>
-                {/* <ButtonHome1 /> */}
             </div>
         </section>
     )
