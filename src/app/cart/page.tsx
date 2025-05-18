@@ -13,8 +13,6 @@ export default function CartPage() {
 
     const totalValue = cartData ? cartData.reduce((acc, product) => acc + product.value * product.quantity, 0) : 0
 
-    console.log('image', cartData || 'null' )
-
     return (
         <>
             <Nav />
