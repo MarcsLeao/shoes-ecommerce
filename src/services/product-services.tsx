@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 const findProducts = async () => {
-    const { data } = await axios.get('http://localhost:3333/api/product')
+    const { data } = await axios.get('https://shoes-ecommerce-api-wisy.onrender.com/api/product')
 
     return data
 }
@@ -15,7 +15,7 @@ export const useFindProducts = () => {
 }
 
 const findProductByName = async (name: string) => {
-    const { data } = await axios.get(`http://localhost:3333/api/product/${name}`)
+    const { data } = await axios.get(`https://shoes-ecommerce-api-wisy.onrender.com/api/product/${name}`)
 
     return data
 }
